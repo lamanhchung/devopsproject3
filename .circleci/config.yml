@@ -226,7 +226,6 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
-            aws config
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --tags project=udapeople \
