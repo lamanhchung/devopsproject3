@@ -250,13 +250,17 @@ jobs:
               --query 'Reservations[*].Instances[*].[PublicIpAddress]' \
               --output text 2>&1 >> .circleci/ansible/inventory.txt
       - run:
+          name: Show inventory
+          command: |
+            cat .circleci/ansible/inventory.txt
+      - run:
           name: Install tar
           command: |
             yum install -y tar gzip
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - .circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure      
 
   configure-infrastructure:
@@ -266,7 +270,9 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "SO:ME:FIN:G:ER:PR:IN:T"
+            - "B7:3C:00:5D:50:29:40:F2:E5:C4:05:23:76:58:BB:A7:13:75:E1:93"
+      - attach_workspace:
+          at: .
       - run:
           name: Install dependencies
           command: |
