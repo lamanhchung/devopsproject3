@@ -329,7 +329,7 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - chwckout
+      - checkout
       # Add ssh keys with fingerprint
       # attach workspace
       - run:
