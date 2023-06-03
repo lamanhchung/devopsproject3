@@ -264,13 +264,9 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run:
-          name: Add public keys of all inventory hosts to known_hosts
-          ansible.builtin.known_hosts:
-            path: /etc/ssh/ssh_known_hosts
-            name: "{{ item.host }}"
-            key: "{{ item.known_hosts }}"
-          with_host_ssh_keys: "{{ ansible_play_hosts }}"
+      - add_ssh_keys:
+          fingerprints:
+            - "SO:ME:FIN:G:ER:PR:IN:T"
       - run:
           name: Install dependencies
           command: |
