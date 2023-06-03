@@ -261,7 +261,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: ansible/centos7-ansible
     steps:
       - checkout
       - add_ssh_keys:
@@ -270,7 +270,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip ansible
+            yum install -y tar gzip
       - run:
           name: Configure server
           command: |
@@ -327,7 +327,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: amazon/aws-cli
+      - image: ansible/centos7-ansible
     steps:
       - checkout
       # Add ssh keys with fingerprint
@@ -335,7 +335,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip ansible
+            yum install -y tar gzip
       - run:
           name: Deploy backend
           command: |
