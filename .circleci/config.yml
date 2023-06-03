@@ -263,7 +263,7 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      -checkout
+      - checkout
       - run:
           name: Add public keys of all inventory hosts to known_hosts
           ansible.builtin.known_hosts:
