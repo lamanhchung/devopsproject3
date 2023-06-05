@@ -309,10 +309,11 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
-        command: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
-          unzip awscli.zip
-          sudo ./aws/install
+          name: Install dependency
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
+            unzip awscli.zip
+            sudo ./aws/install
       - run:
           name: Get backend url
           command: |
