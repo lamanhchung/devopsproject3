@@ -25,15 +25,15 @@ commands:
     steps:
       - run:
           name: Revert migrations
-          # Add when this will run
+          when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS = 1
             if(( $SUCCESS==1 )); 
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
+              cd ~/project/backend
+              npm install
+              Add revert code here. You can find this in the Getting Started section.
               npm run migration:revert
             fi
             
@@ -315,19 +315,6 @@ jobs:
             unzip awscli.zip
             sudo ./aws/install
       - run:
-          name: Get backend url
-          command: |
-            export BACKEND_IP=$(aws --region us-east-1 \
-              ec2 describe-instances \
-              --filters \
-              "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservations[*].Instances[*].[PublicIpAddress]' \
-              --output text 2>&1)
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-            echo API_URL="${API_URL}" >> frontend/.env
-            cat frontend/.env
-      - run:
           name: Deploy frontend objects
           command: |
             cd frontend
@@ -368,17 +355,28 @@ jobs:
 
   smoke-test:
     docker:
-      - image: node:12.18-alpine
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Install dependency
           command: |
-            yum install -y curl npm
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
+            unzip awscli.zip
+            sudo ./aws/install
       - run:
           name: Get backend url
           command: |
-            export BACKEND_IP=1.1.1.1
+            export BACKEND_IP=$(aws --region us-east-1 \
+              ec2 describe-instances \
+              --filters \
+              "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].[PublicIpAddress]' \
+              --output text 2>&1)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            echo API_URL="${API_URL}" >> frontend/.env
+            cat frontend/.env
       - run:
           name: Backend smoke test.
           command: |
@@ -441,7 +439,6 @@ jobs:
 #             then
 #               # your code here
 #             fi
-            
 
 workflows:
   default:
