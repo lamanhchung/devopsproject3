@@ -289,7 +289,7 @@ jobs:
       - run:
           name: Install dependency
           command: |
-            yum install -y curl
+            apt install -y curl
       - run:
           name: Run migrations
           command: |
