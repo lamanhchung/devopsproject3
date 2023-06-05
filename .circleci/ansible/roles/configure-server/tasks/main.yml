@@ -1,23 +1,11 @@
-- name: "Update apt cache"
+-- name: "Upgrade apt"
   become: true
   apt:
-    update_cache: yes
-
-- name: "Upgrade apt"
-  become: true
-  apt:
-    name: aptitude
     upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
 
-- name: "Install pm2"
-  become: true
-  npm:
-    name: "pm2"
-    global: yes
-    production: yes
-    state: "present"
-
-- name: "Install other dependency"
+- name: "Install dependency"
   become: true
   apt:
     name: ["tar", "nodejs", "npm"]
