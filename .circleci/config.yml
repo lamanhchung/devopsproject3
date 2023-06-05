@@ -303,13 +303,16 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: [frontend-build]
       - run:
-          name: Install dependencies
-          command: |
-            yum install -y npm nodejs
+        command: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
+          unzip awscli.zip
+          sudo ./aws/install
       - run:
           name: Get backend url
           command: |
@@ -338,8 +341,11 @@ jobs:
       - image: ansible/centos7-ansible
     steps:
       - checkout
-      # Add ssh keys with fingerprint
-      # attach workspace
+      - add_ssh_keys:
+          fingerprints:
+            - "B7:3C:00:5D:50:29:40:F2:E5:C4:05:23:76:58:BB:A7:13:75:E1:93"
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
