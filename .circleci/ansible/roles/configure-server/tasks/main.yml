@@ -1,8 +1,12 @@
+- name: "Update apt cache"
+  become: true
+  apt:
+    update_cache: yes
+
 - name: "Upgrade apt"
   become: true
   apt:
-    upgrade: yes
-    update_cache: yes
+    upgrade: dist
 
 - name: "Install dependency"
   become: true
