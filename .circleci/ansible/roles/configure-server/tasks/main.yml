@@ -1,9 +1,8 @@
--- name: "Upgrade apt"
+- name: "Upgrade apt"
   become: true
   apt:
     upgrade: yes
     update_cache: yes
-    cache_valid_time: 86400
 
 - name: "Install dependency"
   become: true
