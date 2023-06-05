@@ -375,13 +375,12 @@ jobs:
               --output text 2>&1)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL=${API_URL}"
-            touch backendend/api_url
-            echo "${API_URL}" > backendend/api_url
-            cat backendend/api_url
+            echo "${API_URL}" > backend/api_url
+            cat backend/api_url
       - run:
           name: Backend smoke test.
           command: |
-            export API_URL=$(cat backendend/api_url)
+            export API_URL=$(cat backend/api_url)
             echo "API_URL=${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
