@@ -6,6 +6,7 @@
 - name: "Upgrade apt"
   become: true
   apt:
+    name: aptitude
     upgrade: yes
 
 - name: "Install pm2"
