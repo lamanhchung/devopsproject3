@@ -287,6 +287,10 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
+          name: Install dependency
+          command: |
+            yum install -y curl
+      - run:
           name: Run migrations
           command: |
             cd backend
@@ -309,7 +313,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y ansible npm nodejs
+            yum install -y npm nodejs
       - run:
           name: Get backend url
           command: |
@@ -343,7 +347,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip
+            yum install -y tar gzip npm nodejs ansible
       - run:
           name: Deploy backend
           command: |
