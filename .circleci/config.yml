@@ -396,6 +396,9 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - name: Pause for 30s for API available
+          wait_for:
+            delay: 30
       - run:
           name: Install dependency
           command: |
