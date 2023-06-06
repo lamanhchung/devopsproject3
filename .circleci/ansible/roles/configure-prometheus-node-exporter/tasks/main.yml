@@ -5,6 +5,7 @@
 
 - name: "unarchive node exporter."
   unarchive:
+    remote_src: yes
     src: "/tmp/node_exporter-0.17.0.linux-amd64.tar.gz"
     dest: "/tmp"
 
