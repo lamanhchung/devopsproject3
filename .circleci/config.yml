@@ -338,21 +338,22 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y tar gzip npm nodejs ansible
-      - name: "Set environment"
-        command: |
-          cd backend
-          touch .env
-          echo export ENVIRONMENT=production >> .env
-          echo export NODE_ENV=production >> .env
-          echo export TYPEORM_CONNECTION=postgres >> .env
-          echo export TYPEORM_MIGRATIONS_DIR=./src/migrations >> .env
-          echo export TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> .env
-          echo export TYPEORM_MIGRATIONS=./src/migrations/*.ts >> .env
-          echo export TYPEORM_HOST=$TYPEORM_HOST >> .env
-          echo export TYPEORM_PORT=$TYPEORM_PORT >> .env
-          echo export TYPEORM_USERNAME=$TYPEORM_USERNAME >> .env
-          echo export TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
-          echo export TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
+      - run:
+          name: "Set environment"
+          command: |
+            cd backend
+            touch .env
+            echo export ENVIRONMENT=production >> .env
+            echo export NODE_ENV=production >> .env
+            echo export TYPEORM_CONNECTION=postgres >> .env
+            echo export TYPEORM_MIGRATIONS_DIR=./src/migrations >> .env
+            echo export TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> .env
+            echo export TYPEORM_MIGRATIONS=./src/migrations/*.ts >> .env
+            echo export TYPEORM_HOST=$TYPEORM_HOST >> .env
+            echo export TYPEORM_PORT=$TYPEORM_PORT >> .env
+            echo export TYPEORM_USERNAME=$TYPEORM_USERNAME >> .env
+            echo export TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
+            echo export TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
 
       - run:
           name: Deploy backend
