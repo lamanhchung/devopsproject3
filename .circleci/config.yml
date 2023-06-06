@@ -397,7 +397,7 @@ jobs:
     steps:
       - checkout
       - name: Pause for 30s for API available
-          wait_for:
+          module: wait_for
             delay: 30
       - run:
           name: Install dependency
