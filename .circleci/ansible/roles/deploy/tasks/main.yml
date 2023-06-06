@@ -6,7 +6,7 @@
 
 - name: "Copy build folder"
   copy:
-    src: "artifact.tar.gz"
+    src: "../../artifact.tar.gz"
     dest: "~/backend/artifact.tar.gz"
 
 - name: "Extract build folder"
