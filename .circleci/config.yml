@@ -397,10 +397,6 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Pause for 30s for API available
-        pause:
-          seconds: 30
-      - run:
           name: Install dependency
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
@@ -422,6 +418,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
+            sleep 10
             export API_URL=$(cat backend/api_url)
             echo "API_URL=${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
