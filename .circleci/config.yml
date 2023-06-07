@@ -490,14 +490,11 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            echo OldWorkflowID: "${OldWorkflowID}"
-            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
-            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
+            if [[ "${OldWorkflowID}" != "" ]] && [[ "udapeople-${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]];
             then
-              echo "Find old"
-              #aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
-              #aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-              #aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              aws s3 rm "s3://${OldWorkflowID}" --recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
             fi
 
 workflows:
@@ -518,18 +515,17 @@ workflows:
          filters:
           branches:
             only: [master]
-      #- configure-infrastructure:
-      #   requires: [deploy-infrastructure]
-      #- run-migrations:
-      #   requires: [configure-infrastructure]
-      #- deploy-frontend:
-      #   requires: [run-migrations]
-      #- deploy-backend:
-      #   requires: [run-migrations]
-      #- smoke-test:
-      #   requires: [deploy-backend, deploy-frontend]
+      - configure-infrastructure:
+         requires: [deploy-infrastructure]
+      - run-migrations:
+         requires: [configure-infrastructure]
+      - deploy-frontend:
+         requires: [run-migrations]
+      - deploy-backend:
+         requires: [run-migrations]
+      - smoke-test:
+         requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
-         requires: [build-backend]
-         #requires: [smoke-test]
+         requires: [smoke-test]
       - cleanup:
          requires: [cloudfront-update]
