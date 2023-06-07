@@ -491,7 +491,7 @@ jobs:
     steps:
       - checkout
       - run:
-           name: Get stack list
+           name: Get stacks list
            command: |
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
