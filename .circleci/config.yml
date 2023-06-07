@@ -498,7 +498,7 @@ jobs:
             echo Stack names: "${STACKS[@]}"
             echo "${STACKS[@]}" > ./stack_list
       - run:
-          name: Remove old stacks and files
+          name: Remove old files and stacks
           command: |
             export STACKS=$(cat ./stack_list)
             for stack in ${STACKS[@]}
