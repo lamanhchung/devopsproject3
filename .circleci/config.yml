@@ -507,10 +507,19 @@ jobs:
               then
                 OldWorkflowID="${stack:(-7)}"
                 echo "OldWorkflowID $OldWorkflowID"
-                aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
-                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
-                aws cloudformation delete-stack --stack-name "udapeople-cloudfront-${OldWorkflowID}"
+                if [[ "$stack" == "udapeople-frontend-$OldWorkflowID" ]]
+                then
+                  aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                  aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+                fi
+                if [[ "$stack" == "udapeople-backend-$OldWorkflowID" ]]
+                then
+                  aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+                fi
+                if [[ "$stack" == "udapeople-cloudfront-$OldWorkflowID" ]]
+                then
+                  aws cloudformation delete-stack --stack-name "udapeople-cloudfront-${OldWorkflowID}"
+                fi
               fi
             done
 
